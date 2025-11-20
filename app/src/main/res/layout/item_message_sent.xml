@@ -1,0 +1,17 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="end"
+    android:padding="8dp">
+
+    <TextView
+        android:id="@+id/txtMessageSent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@null"
+        android:background="@drawable/bg_message_sent"
+        android:textColor="@color/black"
+        android:padding="10dp"
+        android:maxWidth="240dp"
+        android:text="Tin nhắn gửi" />
+</LinearLayout>
