@@ -8,6 +8,9 @@
         android:label="@string/app_name"
         android:theme="@style/Base.Theme.DoAnCN">
         <activity
+            android:name=".activity_friends"
+            android:exported="false" />
+        <activity
             android:name=".activity_profile"
             android:exported="false" />
         <activity

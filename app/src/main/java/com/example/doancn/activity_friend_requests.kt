@@ -11,7 +11,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 
-class activity_friend_requests : AppCompatActivity() {
+class activity_friend_requests : Menubottom() {
     private var listFriendRequests = mutableListOf<User>()
     private lateinit var adapter: FriendRequestsAdapter
     private lateinit var recyclerView: RecyclerView
@@ -22,6 +22,8 @@ class activity_friend_requests : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_friend_requests)
+        setupBottomNav(R.id.nav_requests)
+
 
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()

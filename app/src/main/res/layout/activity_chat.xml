@@ -20,6 +20,12 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_height="40dp"
+            android:layout_width="40dp"
+            android:title="Chat"
+            app:navigationIcon="@drawable/ic_arrow_back"/>
 
         <ImageView
             android:id="@+id/imgAvatar"

@@ -5,32 +5,43 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
 import android.widget.Toast
+import android.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.appbar.MaterialToolbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 
-class activity_search_friend : AppCompatActivity() {
+class activity_search_friend : Menubottom() {
 
     private lateinit var db: FirebaseFirestore
     private lateinit var auth: FirebaseAuth
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: UsersAdapterSearchFriend
     private lateinit var etSearch: EditText
+    private lateinit var toolbar: MaterialToolbar
 
     private val users = mutableListOf<User>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search_friend)
+        setupBottomNav(1);
 
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
 
         recyclerView = findViewById(R.id.recyclerViewUsers)
         etSearch = findViewById(R.id.etSearch)
+
+        toolbar = findViewById(R.id.toolbar)
+        toolbar.setNavigationOnClickListener {
+            finish()
+        }
+
+
 
         adapter = UsersAdapterSearchFriend(users) { selectedUser ->
             sendFriendRequest(selectedUser)
