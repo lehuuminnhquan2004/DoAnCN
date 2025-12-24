@@ -19,7 +19,8 @@ class activity_login : AppCompatActivity() {
 
     private lateinit var etEmail: EditText
     private lateinit var etPassword: EditText
-    private lateinit var btnLogin: Button
+    private lateinit var btnLogin : Button
+    private lateinit var btnForgotPassword: Button
     private lateinit var progressBar: ProgressBar
     private lateinit var btnRegister: Button
 
@@ -42,6 +43,7 @@ class activity_login : AppCompatActivity() {
             finish()
         }
         btnLogin = findViewById(R.id.btnLogin)
+        btnForgotPassword = findViewById(R.id.btnForgotPassword)
         etEmail = findViewById(R.id.etEmail)
         etPassword = findViewById(R.id.etPassword)
 
@@ -57,6 +59,10 @@ class activity_login : AppCompatActivity() {
         btnRegister.setOnClickListener {
             startActivity(Intent(this, activity_register::class.java))
         }
+        btnForgotPassword.setOnClickListener {
+            startActivity(Intent(this, activity_forgot_password::class.java))
+        }
+
 
     }
     private fun validateInputs(email: String, password: String): Boolean {

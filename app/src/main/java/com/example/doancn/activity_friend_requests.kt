@@ -28,7 +28,7 @@ class activity_friend_requests : Menubottom() {
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
 
-        createTestFriendRequest();
+
 
         findViewById<MaterialToolbar>(R.id.toolbar).setNavigationOnClickListener { finish() }
         recyclerView = findViewById(R.id.rvRequests)
@@ -105,26 +105,6 @@ class activity_friend_requests : Menubottom() {
     }
 
 
-    private fun createTestFriendRequest() {
-        val testFromUid = "mLOtrI49K1S7Ph0tBXwN5sFt2Qm1" // Thay bằng UID của user khác
-        val testToUid = currentUid ?: return
 
-        val testRequest = hashMapOf(
-            "fromUid" to testFromUid,
-            "toUid" to testToUid,
-            "status" to "pending",
-            "createdAt" to FieldValue.serverTimestamp()
-        )
-
-        db.collection("friend_requests")
-            .document("${testFromUid}_${testToUid}")
-            .set(testRequest)
-            .addOnSuccessListener {
-                Log.d("FriendRequests", "✅ Test request created successfully")
-            }
-            .addOnFailureListener { e ->
-                Log.e("FriendRequests", "❌ Failed to create test request: ${e.message}")
-            }
-    }
 }
 

@@ -11,11 +11,12 @@
 
     <!-- Logo -->
     <ImageView
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="156dp"
+        android:layout_height="134dp"
+        android:layout_gravity="center"
         android:layout_marginBottom="16dp"
         android:contentDescription="App Logo"
-        android:layout_gravity="center"/>
+        android:src="@mipmap/iconapp_foreground" />
 
     <TextView
         android:text="Tạo tài khoản mới"
@@ -76,6 +77,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"/>
+    <Button
+        android:id="@+id/btnLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@android:color/transparent"
+        android:text="Đăng nhập ngay"
+        android:textColor="?attr/colorPrimary" />
 
     <LinearLayout
         android:id="@+id/otpLayout"

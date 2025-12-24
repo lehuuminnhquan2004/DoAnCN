@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+
+    <!-- Kích thước chấm -->
+    <size
+        android:width="12dp"
+        android:height="12dp" />
+
+    <!-- Màu xanh online -->
+    <solid android:color="#23C552" />
+
+    <!-- Viền trắng để nổi trên avatar -->
+    <stroke
+        android:width="2dp"
+        android:color="@android:color/white" />
+
+</shape>

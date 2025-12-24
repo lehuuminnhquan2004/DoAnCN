@@ -18,6 +18,7 @@ class activity_register : AppCompatActivity() {
     private lateinit var etPassword2: EditText
     private lateinit var etOtp: EditText
     private lateinit var btnSendOtp: Button
+    private lateinit var btnLogin: Button
     private lateinit var btnVerifyOtp: Button
     private lateinit var otpLayout: LinearLayout
     private lateinit var progressBar: ProgressBar
@@ -44,6 +45,7 @@ class activity_register : AppCompatActivity() {
         etPassword2 = findViewById(R.id.etPassword2)
         etOtp = findViewById(R.id.etOtp)
         btnSendOtp = findViewById(R.id.btnSendOtp)
+        btnLogin= findViewById(R.id.btnLogin)
         btnVerifyOtp = findViewById(R.id.btnVerifyOtp)
         otpLayout = findViewById(R.id.otpLayout)
         progressBar = findViewById(R.id.progressBar)
@@ -66,6 +68,11 @@ class activity_register : AppCompatActivity() {
 
             sendOtp(emailInput)
         }
+        btnLogin.setOnClickListener {
+            startActivity(Intent(this, activity_login::class.java))
+            finish()
+        }
+
 
         btnVerifyOtp.setOnClickListener {
             verifyOtp()

@@ -10,12 +10,12 @@
     android:padding="16dp"
     android:theme="@style/Base.Theme.DoAnCN">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="50dp"
+    <ImageView
+        android:layout_width="166dp"
+        android:layout_height="143dp"
+
+        android:src="@mipmap/iconapp_foreground"
         android:text="YQ CHAT"
-        android:textSize="32sp"
         android:textColor="#1444D9"
         android:textStyle="bold" />
 
@@ -78,6 +78,13 @@
         android:layout_height="wrap_content"
         android:backgroundTint="@android:color/transparent"
         android:text="Chưa có tài khoản? Đăng ký"
+        android:textColor="?attr/colorPrimary" />
+    <Button
+        android:id="@+id/btnForgotPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@android:color/transparent"
+        android:text="Quên mật khẩu ?"
         android:textColor="?attr/colorPrimary" />
 
     <ProgressBar

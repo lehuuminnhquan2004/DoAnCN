@@ -3,44 +3,43 @@ package com.example.doancn
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.firestore
 
 class MainActivity : Menubottom() {
+
     private lateinit var rvUsers: RecyclerView
     private lateinit var adapter: UsersAdapter
     private val userList = mutableListOf<User>()
 
-    private val db= Firebase.firestore
-    private val auth= FirebaseAuth.getInstance()
-    private val currentUid: String? get()=auth.currentUser?.uid
+    private val db = Firebase.firestore
+    private val auth = FirebaseAuth.getInstance()
+    private val currentUid: String? get() = auth.currentUser?.uid
 
-    private var usersListener: ListenerRegistration?=null
+    private var chatsListener: ListenerRegistration? = null
 
     private lateinit var toolbar: MaterialToolbar
 
-    override fun onCreate(savedInstanceState: Bundle?){
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setupBottomNav(R.id.nav_chat)
-        rvUsers=findViewById(R.id.rvUsers)
-        adapter= UsersAdapter(userList){
-            user -> openChatWith(user)
-        }
+
+        rvUsers = findViewById(R.id.rvUsers)
+        adapter = UsersAdapter(userList) { user -> openChatWith(user) }
         rvUsers.layoutManager = LinearLayoutManager(this)
         rvUsers.adapter = adapter
-        loadChatsRealtime()
 
-        toolbar = findViewById<MaterialToolbar>(R.id.toolbar)
+        toolbar = findViewById(R.id.toolbar)
         toolbar.setOnMenuItemClickListener { item ->
-            when(item.itemId){
-                R.id.action_search ->{
+            when (item.itemId) {
+                R.id.action_search -> {
                     startActivity(Intent(this, activity_search_friend::class.java))
                     true
                 }
@@ -48,16 +47,22 @@ class MainActivity : Menubottom() {
             }
         }
 
+        loadChattedFriends()
     }
 
-    private fun loadChatsRealtime() {
+    private fun loadChattedFriends() {
         val uid = currentUid ?: return
 
-        usersListener = db.collection("chats")
+        chatsListener?.remove()
+
+        chatsListener = db.collection("chats")
             .whereArrayContains("participants", uid)
+            // nếu bạn có updatedAt thì sort chat mới nhất lên đầu:
+            // .orderBy("updatedAt", Query.Direction.DESCENDING)
             .addSnapshotListener { snapshot, error ->
                 if (error != null) {
                     Log.e("MainActivity", "Chat listener failed", error)
+                    adapter.updateList(emptyList())
                     return@addSnapshotListener
                 }
 
@@ -66,40 +71,47 @@ class MainActivity : Menubottom() {
                     return@addSnapshotListener
                 }
 
-                // Lấy ra danh sách uid của người còn lại
-                val otherIds = mutableSetOf<String>()
-                for (doc in snapshot.documents) {
-                    val uid1 = doc.getString("uid1")
-                    val uid2 = doc.getString("uid2")
-                    val otherUid =
-                        if (uid1 == uid) uid2
-                        else if (uid2 == uid) uid1
-                        else null
-
-                    if (otherUid != null) {
-                        otherIds.add(otherUid)
+                // Lấy otherUid từ docId: uidA_uidB
+                val otherIds = snapshot.documents.mapNotNull { doc ->
+                    val parts = doc.id.split("_")
+                    if (parts.size != 2) return@mapNotNull null
+                    val (a, b) = parts
+                    when (uid) {
+                        a -> b
+                        b -> a
+                        else -> null
                     }
-                }
+                }.distinct()
 
                 if (otherIds.isEmpty()) {
                     adapter.updateList(emptyList())
                     return@addSnapshotListener
                 }
 
-                // Load thông tin user theo list uid vừa lấy
-                db.collection("users")
-                    .whereIn("uid", otherIds.toList())
-                    .addSnapshotListener { usersSnap, err ->
-                        if (err != null) {
-                            Log.e("MainActivity", "User load failed", err)
-                            return@addSnapshotListener
-                        }
-                        if (usersSnap != null) {
-                            val friends = usersSnap.toObjects(User::class.java)
-                            adapter.updateList(friends)
-                        }
-                    }
+                loadUsersByDocId(otherIds)
             }
+    }
+
+    private fun loadUsersByDocId(uids: List<String>) {
+        val all = mutableListOf<User>()
+        val chunks = uids.distinct().chunked(10) // whereIn tối đa 10
+        var done = 0
+
+        chunks.forEach { batch ->
+            db.collection("users")
+                .whereIn(FieldPath.documentId(), batch) // users/{uid}
+                .get()
+                .addOnSuccessListener { snap ->
+                    all.addAll(snap.toObjects(User::class.java))
+                    done++
+                    if (done == chunks.size) {
+                        adapter.updateList(all.distinctBy { it.uid })
+                    }
+                }
+                .addOnFailureListener { e ->
+                    Log.e("MainActivity", "Load users failed", e)
+                }
+        }
     }
 
     private fun openChatWith(user: User) {
@@ -117,8 +129,6 @@ class MainActivity : Menubottom() {
 
     override fun onDestroy() {
         super.onDestroy()
-        usersListener?.remove()
+        chatsListener?.remove()
     }
-
-
 }

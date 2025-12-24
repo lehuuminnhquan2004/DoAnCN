@@ -3,18 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:background="@android:color/white">
 
-    <!-- Thanh toolbar -->
+    <!-- Toolbar -->
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
-
         app:title="Thông tin cá nhân"
-        app:titleTextColor="@android:color/white" />
+        app:titleTextColor="@android:color/white"
+        app:navigationIcon="@drawable/ic_arrow_back" />
 
     <!-- Nội dung -->
     <ScrollView
@@ -29,15 +30,27 @@
             android:orientation="vertical"
             android:gravity="center_horizontal">
 
-            <!-- Ảnh đại diện -->
-            <ImageView
-                android:id="@+id/imgAvatar"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:src="@drawable/person_circle_sharp"
-                android:scaleType="centerCrop"
-                android:background="@drawable/circle_background"
-                android:padding="4dp" />
+            <!-- Khối Avatar + Progress -->
+            <FrameLayout
+                android:layout_width="120dp"
+                android:layout_height="120dp">
+
+                <ImageView
+                    android:id="@+id/imgAvatar"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/person_circle_sharp"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/circle_background"
+                    android:padding="4dp" />
+
+                <ProgressBar
+                    android:id="@+id/progressAvatar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:visibility="gone" />
+            </FrameLayout>
 
             <!-- Tên -->
             <TextView
@@ -58,8 +71,6 @@
                 android:text="email@example.com"
                 android:textSize="14sp" />
 
-
-
             <!-- Đường kẻ -->
             <View
                 android:layout_width="match_parent"
@@ -67,7 +78,7 @@
                 android:layout_marginTop="24dp"
                 android:background="#DDDDDD" />
 
-            <!-- Các dòng thông tin khác nếu muốn -->
+            <!-- UID -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -101,10 +112,12 @@
         android:textAllCaps="false"
         android:backgroundTint="@color/design_default_color_error"
         android:textColor="@android:color/white" />
+
+    <!-- Bottom nav -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNav"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:background="#FFFFFF"
         app:itemIconTint="@color/nav_selector"

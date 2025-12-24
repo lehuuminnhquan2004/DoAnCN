@@ -22,9 +22,7 @@ class activity_friends : Menubottom() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_friends)
-
-        // Nếu muốn có bottom nav luôn:
-        // setupBottomNav(R.id.nav_chat) hoặc tạo thêm item nav_friends
+        setupBottomNav(R.id.nav_friends)
 
         val toolbar = findViewById<MaterialToolbar>(R.id.toolbar)
         toolbar.setNavigationOnClickListener { finish() }
