@@ -10,8 +10,9 @@
         android:layout_height="?attr/actionBarSize"
         android:layout_width="match_parent"
         android:title="Danh sách bạn"
-        app:menu="@menu/menu_main"
-        app:navigationIcon="@drawable/ic_arrow_back" />
+        android:background="#00C4FF"
+        android:backgroundTint="#00C4FF"
+        app:menu="@menu/menu_main" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvUsers"

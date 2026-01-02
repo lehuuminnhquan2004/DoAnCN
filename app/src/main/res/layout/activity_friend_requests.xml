@@ -9,6 +9,7 @@
         android:id="@+id/toolbar"
         android:layout_height="?attr/actionBarSize"
         android:layout_width="match_parent"
+        android:background="#00C4FF"
         android:title="Lời mời kết bạn"
         app:navigationIcon="@drawable/ic_arrow_back"/>
 

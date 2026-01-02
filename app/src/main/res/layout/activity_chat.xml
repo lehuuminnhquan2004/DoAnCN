@@ -6,8 +6,8 @@
     android:layout_height="match_parent"
     android:background="#F2F2F2"
     android:theme="@style/Base.Theme.DoAnCN"
-    android:paddingTop="70dp"
-    android:paddingBottom="65dp">
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp">
 
     <!-- Thanh tiêu đề -->
     <LinearLayout
@@ -15,8 +15,8 @@
         android:layout_width="0dp"
         android:layout_height="56dp"
         android:orientation="horizontal"
-        android:background="@color/white"
         android:padding="8dp"
+        android:background="#00C4FF"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">

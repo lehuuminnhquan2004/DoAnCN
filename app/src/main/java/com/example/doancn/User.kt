@@ -4,6 +4,7 @@ data class User(
     val uid: String = "",
     val fullName: String = "",
     val email: String = "",
-    val profileImage: String = ""
+    val profileImage: String = "",
+    val online: Boolean = false
 
 )
