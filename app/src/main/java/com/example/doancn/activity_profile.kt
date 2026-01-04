@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.storage.FirebaseStorage
@@ -92,6 +93,7 @@ class activity_profile : Menubottom() {
         }
 
         btnLogout.setOnClickListener {
+            setOnlineStatus(false)
             auth.signOut()
             startActivity(Intent(this, activity_login::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -143,5 +145,19 @@ class activity_profile : Menubottom() {
                 progressAvatar.visibility = View.GONE
                 Toast.makeText(this, "Lưu ảnh thất bại", Toast.LENGTH_SHORT).show()
             }
+    }
+
+
+    private fun setOnlineStatus(isOnline: Boolean) {
+        val uid = auth.currentUser?.uid ?: return
+        db.collection("users")
+            .document(uid)
+            .set(
+                mapOf(
+                    "online" to isOnline,
+                    "lastSeen" to FieldValue.serverTimestamp()
+                ),
+                SetOptions.merge()
+            )
     }
 }

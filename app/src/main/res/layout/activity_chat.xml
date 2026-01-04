@@ -1,71 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F2F2F2"
-    android:theme="@style/Base.Theme.DoAnCN"
-    android:paddingTop="10dp"
-    android:paddingBottom="10dp">
+    android:background="#F5F7FB">
 
-    <!-- Thanh tiêu đề -->
-    <LinearLayout
-        android:id="@+id/chat_header"
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
         android:layout_width="0dp"
-        android:layout_height="56dp"
-        android:orientation="horizontal"
-        android:padding="8dp"
-        android:background="#00C4FF"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#0A7CFF"
+        android:elevation="4dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
-            android:layout_height="40dp"
-            android:layout_width="40dp"
-            android:title="Chat"
-            app:navigationIcon="@drawable/ic_arrow_back"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:navigationIcon="@drawable/ic_arrow_back">
 
-        <ImageView
-            android:id="@+id/imgAvatar"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/person_circle_sharp"
-            android:scaleType="centerCrop"
-            android:background="@drawable/circle_bg"
-            android:padding="4dp" />
-
-        <TextView
-            android:id="@+id/txtName"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:layout_marginStart="8dp"
-            android:textSize="18sp"
-            android:textColor="@android:color/black"
-            android:text="Tên người kia" />
-    </LinearLayout>
+            android:paddingStart="4dp">
 
-    <!-- Danh sách tin nhắn -->
+            <ImageView
+                android:id="@+id/imgAvatar"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:scaleType="centerCrop"
+                android:background="@drawable/circle_background"
+                android:padding="2dp"
+                android:src="@drawable/person_circle_sharp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_marginStart="10dp"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/txtName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tên người nhận"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Đang hoạt động"
+                    android:textColor="#DFF1FF"
+                    android:textSize="13sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </com.google.android.material.appbar.MaterialToolbar>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerMessages"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:padding="8dp"
-        app:layout_constraintTop_toBottomOf="@id/chat_header"
+        android:padding="12dp"
+        android:clipToPadding="false"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
         app:layout_constraintBottom_toTopOf="@id/layoutInput"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Ô nhập tin nhắn -->
     <LinearLayout
         android:id="@+id/layoutInput"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="@color/white"
-        android:padding="6dp"
+        android:padding="10dp"
+        android:background="@android:color/white"
+        android:elevation="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -73,19 +85,23 @@
         <EditText
             android:id="@+id/edtMessage"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:layout_weight="1"
+            android:background="@drawable/bg_edittext"
             android:hint="Nhập tin nhắn..."
-            android:background="@null"
-            android:padding="8dp"
-            android:textSize="16sp" />
+            android:paddingStart="14dp"
+            android:paddingEnd="14dp"
+            android:textSize="15sp" />
 
         <ImageButton
             android:id="@+id/btnSend"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/bg_button"
+            android:padding="10dp"
             android:src="@drawable/ic_send"
-            android:background="@null"
+            android:tint="@android:color/white"
             android:contentDescription="Gửi" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

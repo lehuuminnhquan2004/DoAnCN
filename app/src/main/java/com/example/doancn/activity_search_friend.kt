@@ -5,8 +5,6 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
 import android.widget.Toast
-import android.widget.Toolbar
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.MaterialToolbar
@@ -28,7 +26,7 @@ class activity_search_friend : Menubottom() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search_friend)
-        setupBottomNav(1);
+        setupBottomNav(R.id.nav_chat)
 
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
@@ -37,11 +35,7 @@ class activity_search_friend : Menubottom() {
         etSearch = findViewById(R.id.etSearch)
 
         toolbar = findViewById(R.id.toolbar)
-        toolbar.setNavigationOnClickListener {
-            finish()
-        }
-
-
+        toolbar.setNavigationOnClickListener { finish() }
 
         adapter = UsersAdapterSearchFriend(users) { selectedUser ->
             sendFriendRequest(selectedUser)
@@ -50,13 +44,12 @@ class activity_search_friend : Menubottom() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
 
-
         etSearch.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) {
                 val query = s.toString().trim()
-                if (query.isNotEmpty()) {
+                if (query.length >= 2) {
                     searchUser(query)
                 } else {
                     users.clear()
@@ -82,9 +75,8 @@ class activity_search_friend : Menubottom() {
                 for (doc in docs) {
                     val user = doc.toObject(User::class.java)
                     if (user.uid != auth.currentUser?.uid) users.add(user)
-                    adapter.notifyDataSetChanged()
                 }
-
+                adapter.notifyDataSetChanged()
             }
             .addOnFailureListener {
                 Toast.makeText(this, "Lỗi khi tìm kiếm: ${it.message}", Toast.LENGTH_SHORT).show()
@@ -92,17 +84,16 @@ class activity_search_friend : Menubottom() {
     }
 
     private fun sendFriendRequest(targetUser: User) {
-
         val currentUid = auth.uid ?: return
-        val targetUid = targetUser.uid
-        val friendRequestId = "${currentUid}_${targetUid}";
+        val friendRequestId = "${currentUid}_${targetUser.uid}"
         val request = hashMapOf(
             "fromUid" to currentUid,
             "toUid" to targetUser.uid,
             "status" to "pending",
             "createdAt" to FieldValue.serverTimestamp()
         )
-        db.collection("friend_requests").document(friendRequestId)
+        db.collection("friend_requests")
+            .document(friendRequestId)
             .set(request)
             .addOnSuccessListener {
                 Toast.makeText(this, "Đã gửi lời mời kết bạn đến ${targetUser.fullName}", Toast.LENGTH_SHORT).show()
@@ -110,27 +101,6 @@ class activity_search_friend : Menubottom() {
             }
             .addOnFailureListener {
                 Toast.makeText(this, "Gửi lời mời thất bại: ${it.message}", Toast.LENGTH_SHORT).show()
-            }
-    }
-    private fun onAcceptClick(user: User) {
-        val currentUid = auth.uid ?: return
-        val requestId="${user.uid}_$currentUid"
-
-        db.collection("friend_requests")
-            .document(requestId)
-            .update("status", "accepted")
-        val friendId="${currentUid}_${user.uid}"
-
-        val dataFriend= hashMapOf(
-            "uid1" to currentUid,
-            "uid2" to user.uid,
-            "createdAt" to FieldValue.serverTimestamp()
-        )
-        db.collection("friends")
-            .document(friendId)
-            .set(dataFriend)
-            .addOnSuccessListener {
-                adapter.notifyDataSetChanged()
             }
     }
 }

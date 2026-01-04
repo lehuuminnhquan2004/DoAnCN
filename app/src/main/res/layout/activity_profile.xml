@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:background="@android:color/white">
+    android:background="#F5F7FB">
 
-    <!-- Toolbar -->
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="#00C4FF"
-        app:title="Thông tin cá nhân"
+        android:background="#0A7CFF"
+        android:elevation="4dp"
+        app:title="Hồ sơ"
         app:titleTextColor="@android:color/white"
         app:navigationIcon="@drawable/ic_arrow_back" />
 
-    <!-- Nội dung -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:padding="16dp">
+        android:padding="16dp"
+        android:clipToPadding="false">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -30,98 +30,118 @@
             android:orientation="vertical"
             android:gravity="center_horizontal">
 
-            <!-- Khối Avatar + Progress -->
-            <FrameLayout
-                android:layout_width="120dp"
-                android:layout_height="120dp">
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="18dp"
+                app:cardElevation="2dp"
+                app:cardUseCompatPadding="true">
 
-                <ImageView
-                    android:id="@+id/imgAvatar"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/person_circle_sharp"
-                    android:scaleType="centerCrop"
-                    android:background="@drawable/circle_background"
-                    android:padding="4dp" />
-
-                <ProgressBar
-                    android:id="@+id/progressAvatar"
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:visibility="gone" />
-            </FrameLayout>
+                    android:orientation="vertical"
+                    android:padding="20dp"
+                    android:gravity="center_horizontal">
 
-            <!-- Tên -->
-            <TextView
-                android:id="@+id/tvFullName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:text="Tên người dùng"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                    <FrameLayout
+                        android:layout_width="120dp"
+                        android:layout_height="120dp">
 
-            <!-- Email -->
-            <TextView
-                android:id="@+id/tvEmail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="email@example.com"
-                android:textSize="14sp" />
+                        <ImageView
+                            android:id="@+id/imgAvatar"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/person_circle_sharp"
+                            android:scaleType="centerCrop"
+                            android:background="@drawable/circle_background"
+                            android:padding="4dp" />
 
-            <!-- Đường kẻ -->
-            <View
+                        <ProgressBar
+                            android:id="@+id/progressAvatar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:visibility="gone" />
+                    </FrameLayout>
+
+                    <TextView
+                        android:id="@+id/tvFullName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:text="Tên người dùng"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:textColor="#111111" />
+
+                    <TextView
+                        android:id="@+id/tvEmail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="email@example.com"
+                        android:textSize="14sp"
+                        android:textColor="#4F5B67" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="24dp"
-                android:background="#DDDDDD" />
-
-            <!-- UID -->
-            <LinearLayout
-                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="16dp">
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="1dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="UID:"
-                    android:textStyle="bold" />
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
-                <TextView
-                    android:id="@+id/tvUid"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="1234567890"
-                    android:textSize="13sp" />
-            </LinearLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="UID"
+                        android:textStyle="bold"
+                        android:textColor="#2F3A45" />
 
+                    <TextView
+                        android:id="@+id/tvUid"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="123456789"
+                        android:textColor="#4F5B67"
+                        android:textSize="13sp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
     </ScrollView>
 
-    <!-- Nút Đăng xuất -->
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnLogout"
+        style="@style/Widget.MaterialComponents.Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="10dp"
         android:text="Đăng xuất"
         android:textAllCaps="false"
-        android:backgroundTint="@color/design_default_color_error"
-        android:textColor="@android:color/white" />
+        android:textColor="@android:color/white"
+        app:backgroundTint="#E53935" />
 
-    <!-- Bottom nav -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="#FFFFFF"
+        android:background="@android:color/white"
         app:itemIconTint="@color/nav_selector"
         app:itemTextColor="@color/nav_selector"
+        app:labelVisibilityMode="labeled"
         app:menu="@menu/bottom_menu" />
 
 </LinearLayout>

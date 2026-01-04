@@ -68,6 +68,16 @@ class activity_chat : AppCompatActivity() {
         toolbar.setNavigationOnClickListener { finish() }
     }
 
+    override fun onStart() {
+        super.onStart()
+        setOnlineStatus(true)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        setOnlineStatus(false)
+    }
+
     private fun addControls() {
         toolbar = findViewById(R.id.toolbar)
         recyclerView = findViewById(R.id.recyclerMessages)
@@ -141,5 +151,18 @@ class activity_chat : AppCompatActivity() {
                     recyclerView.scrollToPosition(messages.size - 1)
                 }
             }
+    }
+
+    private fun setOnlineStatus(isOnline: Boolean) {
+        val uid = auth.currentUser?.uid ?: return
+        db.collection("users")
+            .document(uid)
+            .set(
+                mapOf(
+                    "online" to isOnline,
+                    "lastSeen" to FieldValue.serverTimestamp()
+                ),
+                SetOptions.merge()
+            )
     }
 }
