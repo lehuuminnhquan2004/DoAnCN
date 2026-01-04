@@ -1,5 +1,6 @@
 package com.example.doancn
 
+import android.content.Context
 import android.os.Bundle
 import android.widget.EditText
 import android.widget.ImageButton
@@ -17,6 +18,8 @@ import com.google.firebase.auth.auth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.firestore
+import android.view.inputmethod.InputMethodManager
+import android.view.WindowManager
 
 class activity_chat : AppCompatActivity() {
 
@@ -38,6 +41,7 @@ class activity_chat : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_chat)
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE or WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
 
         addControls()
 
@@ -58,8 +62,6 @@ class activity_chat : AppCompatActivity() {
             stackFromEnd = true
         }
         recyclerView.adapter = adapter
-
-        // ✅ đảm bảo chat document có participants để Main/Friends query được
         ensureChatDocument()
 
         listenForMessages()
@@ -116,7 +118,6 @@ class activity_chat : AppCompatActivity() {
 
         val chatRef = db.collection("chats").document(cid)
 
-        // ✅ ghi message + update lastMessage/updatedAt để list chat hiển thị đúng
         chatRef.collection("messages")
             .add(msg)
             .addOnSuccessListener {
@@ -132,6 +133,7 @@ class activity_chat : AppCompatActivity() {
             }
 
         edtMessage.text.clear()
+        hideKeyboard()
     }
 
     private fun listenForMessages(){
@@ -146,11 +148,14 @@ class activity_chat : AppCompatActivity() {
                 messages.addAll(newMessages)
                 adapter.notifyDataSetChanged()
 
-                // ✅ CHỈ scroll khi có item
                 if (messages.isNotEmpty()) {
                     recyclerView.scrollToPosition(messages.size - 1)
-                }
             }
+    }
+}
+    private fun hideKeyboard() {
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+        imm?.hideSoftInputFromWindow(edtMessage.windowToken, 0)
     }
 
     private fun setOnlineStatus(isOnline: Boolean) {

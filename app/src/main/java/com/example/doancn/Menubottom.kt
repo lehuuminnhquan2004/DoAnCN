@@ -16,8 +16,8 @@ open class Menubottom : AppCompatActivity() {
         setOnlineStatus(true)
     }
 
-    override fun onStop() {
-        super.onStop()
+    override fun onDestroy() {
+        super.onDestroy()
         setOnlineStatus(false)
     }
 
